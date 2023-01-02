@@ -1,0 +1,46 @@
+body {
+	background-color: #F4F4F4;
+}
+input[type="text"], textarea {
+
+  background-color : #d1d1d1; 
+
+}
+table, th, td {
+  border:  5px solid rgba(7,7,7,0.55);
+  border-collapse: none;
+  font-weight: 700;
+  background-color: #C0B283;
+  border-radius: 3px;
+}
+tr:nth-child(even) td { background: rgb(206, 190, 168) }   
+tr:hover {
+	background-color: #42cef4;
+	}
+.button {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border-radius: 25px;
+}
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+body {
+    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+    zoom: 0.9; /* Other non-webkit browsers */
+    zoom: 90%; /* Webkit browsers */
+}

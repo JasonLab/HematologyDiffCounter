@@ -1,0 +1,2607 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Diff Counter</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+	 
+    <script src="script.js"></script>
+	
+
+	<table id="table1" style="width:100%">
+  <tr>
+  <td> Enter your patient's WBC count here. </td>
+  <td> <input type="text" id="WBCC" value="0"> </td>
+  <td id='WBCC2' colspan = 100%> </td>
+  </tr>
+  <tr>
+  <td> Cell </td>
+  <td> Count </td>
+  <td> Relative </td>
+  <td> Absolute </td>
+  </tr>
+  <tr>
+  <td> Segmented Neutrophil (X) </td>
+  <td> <input type="text" id="SegnC" value="0"> </td>
+  <td> <input type="text" id="SegR" value="0">  </td>
+  <td > <input type="text" id="SegA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Lymphocyte (C) </td>
+  <td> <input type="text" id="LymC" value="0"> </td>
+  <td> <input type="text" id="LymR" value="0"> </td>
+  <td> <input type="text" id="LymA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Monocyte (D) </td>
+   <td> <input type="text" id="MonoC" value="0"> </td>
+   <td> <input type="text" id="MonoR" value="0"> </td>
+  <td> <input type="text" id="MonoA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Eosinophil (S) </td>
+  <td> <input type="text" id="EoC" value="0"> </td>
+  <td> <input type="text" id="EoR" value="0"> </td>
+  <td> <input type="text" id="EoA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Basophil (A) </td>
+  <td> <input type="text" id="BasoC" value="0"> </td>
+  <td> <input type="text" id="BasoR" value="0"> </td>
+  <td> <input type="text" id="BasoA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Atypical Lymphocyte (V) </td>
+  <td> <input type="text" id="AtyC" value="0"> </td>
+  <td> <input type="text" id="AtyR" value="0"> </td>
+  <td> <input type="text" id="AtyA" value="0">  </td> 
+  </tr>
+   <tr>
+  <td> Band Neutrophil (Z) </td>
+  <td> <input type="text" id="BandC" value="0"> </td>
+  <td> <input type="text" id="BandR" value="0"> </td>
+  <td> <input type="text" id="BandA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Metamyelocyte (F) </td>
+  <td> <input type="text" id="MetaC" value="0"> </td>
+  <td> <input type="text" id="MetaR" value="0"> </td>
+  <td> <input type="text" id="MetaA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Myelocyte (R)</td>
+  <td> <input type="text" id="MyeC" value="0"> </td>
+  <td> <input type="text" id="MyeR" value="0"> </td>
+  <td> <input type="text" id="MyeA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Promyelocyte (E)</td>
+  <td> <input type="text" id="ProC" value="0"> </td>
+  <td> <input type="text" id="ProR" value="0"> </td>
+  <td> <input type="text" id="ProA" value="0">  </td> 
+  </tr>
+   <tr>
+  <td> Blast (W)</td>
+  <td> <input type="text" id="BlaC" value="0"> </td>
+  <td> <input type="text" id="BlaR" value="0"> </td>
+  <td> <input type="text" id="BlaA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> Other (T) </td>
+  <td> <input type="text" id="OthC" value="0"> </td>
+  <td> <input type="text" id="OthR" value="0"> </td>
+  <td> <input type="text" id="OthA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td> nRBC (Q) </td>
+   <td> <input type="text" id="NrbC" value="0"> </td>
+   <td> <input type="text" id="NrbR" value="0"> </td>
+   <td> <input type="text" id="NrbA" value="0">  </td> 
+  </tr>
+  <tr>
+  <td id = "Totaltd"> Total Cells </td>
+   <td> <input type="text" id="Total" value="0"> </td>
+  </tr>
+  </table>
+  <script>
+	  var CellList = []; 
+	  var Total = 0;
+  document.addEventListener('keyup', function (event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+    var WBCV  =  document.getElementById('WBCC').value;
+	WBCV = parseFloat(WBCV); //need wbc as float
+    var key = event.key || event.keyCode;
+
+    if (key === 'X' || key === 'x' || key === 120 || key == 88) {
+        beep();
+        KeyX();
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+		/// ABSOLUTE COUNTS BEGIN HERE
+		
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+			checkFilled();
+			
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+			checkFilled();
+			
+			
+		}
+		else{
+			checkunFilled();
+		}
+    }
+
+	 if (key === 'C' || key === 'c' || key === 67 || key == 99) {
+		 beep();
+        KeyC();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+			
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	 if (key === 'D' || key === 'd' || key === 68 || key == 100) {
+		 beep();
+        KeyD();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'S' || key === 's' || key === 83 || key == 115) {
+		beep();
+        KeyS();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'A' || key === 'a' || key === 97 || key == 65) {
+		beep();
+        KeyA();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'V' || key === 'v' || key === 118 || key == 86) {
+		beep();
+        KeyV();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'Z' || key === 'z' || key === 90 || key == 122) {
+		beep();
+        KeyZ();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'F' || key === 'f' || key === 70 || key == 102) {
+		beep();
+        KeyF();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	if (key === 'R' || key === 'r' || key === 82 || key == 114) {
+		beep();
+        KeyR();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	
+	if (key === 'E' || key === 'e' || key === 69 || key == 101) {
+		beep();
+        KeyE();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	   
+	if (key === 'W' || key === 'w' || key === 87 || key == 119) {
+		beep();
+        KeyW();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+    }
+	
+	if (key === 'T' || key === 't' || key === 84 || key == 116) {
+		beep();
+        KeyT();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		Total = Total +1;
+		document.getElementById("Total").value = Total;
+
+		var SegV  =  document.getElementById('SegnC').value;
+		if (parseInt(SegV) > 0){
+		SegRC = parseInt(SegV) /Total  * 100;
+		SegRC2= SegRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("SegR").value = SegRC2;
+		}
+
+		var LymV  =  document.getElementById('LymC').value;
+		if (parseInt(LymV) > 0){
+		LymRC = parseInt(LymV) /Total  * 100;
+		LymRC2= LymRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("LymR").value = LymRC2;
+		}
+
+		var MonoV  =  document.getElementById('MonoC').value;
+		if (parseInt(MonoV) > 0){
+		MonoRC = parseInt(MonoV) /Total  * 100;
+		MonoRC2= MonoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MonoR").value = MonoRC2;
+		}
+
+		var EoV  =  document.getElementById('EoC').value;
+		if (parseInt(EoV) > 0){
+		EoRC = parseInt(EoV) /Total  * 100;
+		EoRC2= EoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("EoR").value = EoRC2;
+		}
+
+		var BasoV  =  document.getElementById('BasoC').value;
+		if (parseInt(BasoV) > 0){
+		BasoRC = parseInt(BasoV) /Total  * 100;
+		BasoRC2= BasoRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BasoR").value = BasoRC2;
+		}
+		var AtyV  =  document.getElementById('AtyC').value;
+		if (parseInt(AtyV) > 0){
+		AtyRC = parseInt(AtyV) /Total  * 100;
+		AtyRC2= AtyRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("AtyR").value = AtyRC2;
+		}
+		var BandV  =  document.getElementById('BandC').value;
+		if (parseInt(BandV) > 0){
+		BandRC = parseInt(BandV) /Total  * 100;
+		BandRC2= BandRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BandR").value = BandRC2;
+		}
+		var MetaV  =  document.getElementById('MetaC').value;
+		if (parseInt(MetaV) > 0){
+		MetaRC = parseInt(MetaV) /Total  * 100;
+		MetaRC2= MetaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MetaR").value = MetaRC2;
+		}
+		var MyeV  =  document.getElementById('MyeC').value;
+		if (parseInt(MyeV) > 0){
+		MyeRC = parseInt(MyeV) /Total  * 100;
+		MyeRC2= MyeRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("MyeR").value = MyeRC2;
+		}
+		var ProV  =  document.getElementById('ProC').value;
+		if (parseInt(ProV) > 0){
+		ProRC = parseInt(ProV) /Total  * 100;
+		ProRC2= ProRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("ProR").value = ProRC2;
+		}
+		var BlaV  =  document.getElementById('BlaC').value;
+		if (parseInt(BlaV) > 0){
+		BlaRC = parseInt(BlaV) /Total  * 100;
+		BlaRC2= BlaRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("BlaR").value = BlaRC2;
+		}
+		var OthV  =  document.getElementById('OthC').value;
+		if (parseInt(OthV) > 0){
+		OthRC = parseInt(OthV) /Total  * 100;
+		OthRC2= OthRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("OthR").value = OthRC2;
+		}
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+
+		if (parseInt(SegV) > 0){
+		SegAC = parseInt(SegV) /Total  * WBCV ;
+		SegAC2= SegAC.toFixed(2);  
+		document.getElementById("SegA").value = SegAC2;
+		}
+		if (parseInt(LymV) > 0){
+		LymAC = parseInt(LymV) /Total  * WBCV ;
+		LymAC2= LymAC.toFixed(2);  
+		document.getElementById("LymA").value = LymAC2;
+		}
+		if (parseInt(MonoV) > 0){
+		MonoAC = parseInt(MonoV) /Total  * WBCV ;
+		MonoAC2= MonoAC.toFixed(2);  
+		document.getElementById("MonoA").value = MonoAC2;
+		}
+		if (parseInt(EoV) > 0){
+		EoAC = parseInt(EoV) /Total  * WBCV ;
+		EoAC2= EoAC.toFixed(2);  
+		document.getElementById("EoA").value = EoAC2;
+		}
+		if (parseInt(BasoV) > 0){
+		BasoAC = parseInt(BasoV) /Total  * WBCV ;
+		BasoAC2= BasoAC.toFixed(2);  
+		document.getElementById("BasoA").value = BasoAC2;
+		}
+		if (parseInt(AtyV) > 0){
+		AtyAC = parseInt(AtyV) /Total  * WBCV ;
+		AtyAC2= AtyAC.toFixed(2);  
+		document.getElementById("AtyA").value = AtyAC2;
+		}
+		if (parseInt(BandV) > 0){
+		BandAC = parseInt(BandV) /Total  * WBCV ;
+		BandAC2= BandAC.toFixed(2);  
+		document.getElementById("BandA").value = BandAC2;
+		}
+		if (parseInt(MetaV) > 0){
+		MetaAC = parseInt(MetaV) /Total  * WBCV ;
+		MetaAC2= MetaAC.toFixed(2);  
+		document.getElementById("MetaA").value = MetaAC2;
+		}
+		if (parseInt(MyeV) > 0){
+		MyeAC = parseInt(MyeV) /Total  * WBCV ;
+		MyeAC2= MyeAC.toFixed(2);  
+		document.getElementById("MyeA").value = MyeAC2;
+		}
+		if (parseInt(ProV) > 0){
+		ProAC = parseInt(ProV) /Total  * WBCV ;
+		ProAC2= ProAC.toFixed(2);  
+		document.getElementById("ProA").value = ProAC2;
+		}
+		if (parseInt(BlaV) > 0){
+		BlaAC = parseInt(BlaV) /Total  * WBCV ;
+		BlaAC2= BlaAC.toFixed(2);  
+		document.getElementById("BlaA").value = BlaAC2;
+		}
+		if (parseInt(OthV) > 0){
+		OthAC = parseInt(OthV) /Total  * WBCV ;
+		OthAC2= OthAC.toFixed(2);  
+		document.getElementById("OthA").value = OthAC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+		
+    }
+	if (key === 'Q' || key === 'q' || key === 81 || key == 113) {
+		beep();
+        KeyQ();
+		// prevents total from changing
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+		var NrbV  =  document.getElementById('NrbC').value;
+		if (parseInt(NrbV) > 0){
+		NrbVRC = parseInt(NrbV) /Total  * 100;
+		NrbVRC2= NrbVRC.toFixed(0);  // Wants INTEGER
+		document.getElementById("NrbR").value = NrbVRC2;
+		}
+		if (parseInt(NrbV) > 0){
+		NrbAC = parseInt(NrbV) /Total  * WBCV ;
+		NrbAC2= NrbAC.toFixed(2);  
+		document.getElementById("NrbA").value = NrbAC2;
+		}
+		
+    }
+	if (key === "Enter") {
+		var WBCV  =  document.getElementById('WBCC').value;
+	    WBCV = parseFloat(WBCV); //need wbc as float
+        var SegU = document.getElementById('SegnC').value;
+		var LymU = document.getElementById('LymC').value;
+		var MonoU = document.getElementById('MonoC').value;
+		var EoU = document.getElementById('EoC').value;
+		var BasoU = document.getElementById('BasoC').value;
+		var AtyU = document.getElementById('AtyC').value;
+		var BandU = document.getElementById('BandC').value;
+		var MetaU = document.getElementById('MetaC').value;
+		var MyeU = document.getElementById('MyeC').value;
+		var ProU = document.getElementById('ProC').value;
+		var BlaU = document.getElementById('BlaC').value;
+		var OthU = document.getElementById('OthC').value;
+		var NrbU = document.getElementById('NrbC').value;
+		var EnterU = parseInt(SegU) + parseInt(LymU) + parseInt(MonoU) + parseInt(EoU) + parseInt(BasoU) + parseInt(AtyU) + parseInt(BandU) + parseInt(MetaU) + parseInt(MyeU)+ parseInt(ProU) + parseInt(OthU) + parseInt(BlaU);
+		//Do not include nrbc in this calculation
+		var SegRE = SegU / EnterU * 100;
+		var SegRE = SegRE.toFixed(0);
+		var LymRE = LymU / EnterU * 100;
+		var LymRE = LymRE.toFixed(0);
+		var MonoRE = MonoU / EnterU * 100;
+		var MonoRE = MonoRE.toFixed(0);
+		var EoRE = EoU / EnterU * 100;
+		var EoRE = EoRE.toFixed(0);
+		var BasoRE = BasoU / EnterU * 100;
+		var BasoRE = BasoRE.toFixed(0);
+		var AtyRE = AtyU / EnterU * 100;
+		var AtyRE = AtyRE.toFixed(0);
+		var MetaRE = MetaU / EnterU * 100;
+		var MetaRE = MetaRE.toFixed(0);
+		var MyeRE = MyeU / EnterU * 100;
+		var MyeRE = MyeRE.toFixed(0);
+		var BandRE = BandU / EnterU * 100;
+		var BandRE = BandRE.toFixed(0);
+		var ProRE = ProU / EnterU * 100;
+		var ProRE = ProRE.toFixed(0);
+		var BlaRE = BlaU / EnterU * 100;
+		var BlaRE = BlaRE.toFixed(0);
+		var OthRE = OthU / EnterU * 100;
+		var OthRE = OthRE.toFixed(0);
+		var NrbRE = NrbU / EnterU * 100;
+		var NrbRE = NrbRE.toFixed(0);
+		
+		if(SegRE > 0){
+		var SegA2 = SegRE / 100 * WBCV;
+		var SegA2 = SegA2.toFixed(2);
+		}
+		
+		if(LymRE > 0){
+		var LymA2 = LymRE / 100 * WBCV;
+		var LymA2 = LymA2.toFixed(2);
+		}
+		if(MonoRE > 0){
+		var MonoA2 = MonoRE / 100 * WBCV;
+		var MonoA2 = MonoA2.toFixed(2);
+		}
+		if(EoRE > 0){
+		var EoA2 = EoRE / 100 * WBCV;
+		var EoA2 = EoA2.toFixed(2);
+		}
+		if(BasoRE > 0){
+		var BasoA2 = BasoRE / 100 * WBCV;
+		var BasoA2 = BasoA2.toFixed(2); 
+		}
+		if(AtyRE > 0){
+		var AtyA2 = AtyRE / 100 * WBCV;
+		var AtyA2 = AtyA2.toFixed(2); 
+		}
+		if(BandRE > 0){
+		var BandA2 = BandRE / 100 * WBCV;
+		var BandA2 = BandA2.toFixed(2);
+		}
+		if(MetaRE > 0){
+		var MetaA2 = MetaRE / 100 * WBCV;
+		var MetaA2 = MetaA2.toFixed(2);
+		}
+		if(MyeRE > 0){
+		var MyeA2 = MyeRE / 100 * WBCV;
+		var MyeA2 = MyeA2.toFixed(2); 
+		}
+		if(ProRE > 0){
+		var ProA2 = ProRE / 100 * WBCV;
+		var ProA2 = ProA2.toFixed(2)
+		}
+		if(BlaRE > 0){
+		var BlaA2 = BlaRE / 100 * WBCV;
+		var BlaA2 = BlaA2.toFixed(2);
+		}
+		if(OthRE > 0){
+		var OthA2 = OthRE / 100 * WBCV;
+		var OthA2 = OthA2.toFixed(2);
+		}
+		if(NrbRE > 0){
+		var NrbA2 = NrbRE / 100 * WBCV;
+		var NrbA2 = NrbA2.toFixed(2);
+		}
+		
+
+
+
+		document.getElementById("Total").value = EnterU;
+		document.getElementById("SegR").value = SegRE;
+		document.getElementById("LymR").value = LymRE;
+		document.getElementById("MonoR").value = MonoRE;
+		document.getElementById("EoR").value = EoRE;
+		document.getElementById("BasoR").value = BasoRE;
+		document.getElementById("AtyR").value = AtyRE;
+		document.getElementById("MetaR").value = MetaRE;
+		document.getElementById("MyeR").value = MyeRE;
+		document.getElementById("BandR").value = BandRE;
+		document.getElementById("ProR").value = ProRE;
+		document.getElementById("BlaR").value = BlaRE;
+		document.getElementById("OthR").value = OthRE;
+		document.getElementById("NrbR").value = NrbRE;
+		document.getElementById("SegA").value = SegA2;
+		document.getElementById("LymA").value = LymA2;
+		document.getElementById("MonoA").value = MonoA2;
+		document.getElementById("EoA").value = EoA2;
+		document.getElementById("BasoA").value = BasoA2;
+		document.getElementById("AtyA").value = AtyA2;
+		document.getElementById("MetaA").value = MetaA2;
+		document.getElementById("MyeA").value = MyeA2;
+		document.getElementById("BandA").value = BandA2;
+		document.getElementById("ProA").value = ProA2;
+		document.getElementById("BlaA").value = BlaA2;
+		document.getElementById("OthA").value = OthA2;
+		document.getElementById("NrbA").value = NrbA2;
+
+		// Click Enter to Update Count
+		var Total2  =  document.getElementById('Total').value;
+		var Total = parseInt(Total2);
+        if (Total % 100 == 0 && Total == 100){
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 100 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else if (Total % 100 == 0 && Total == 200)
+		{
+			endbeep();
+			checkFilled();
+			setTimeout(function() {
+            alert("You have reached 200 cells counted!")
+            }, 100); //  beep before alert
+		}
+		else{
+			checkunFilled();
+		}
+	}	
+});
+
+function KeyX(){
+	
+	var segnV  =  document.getElementById('SegnC').value;
+	
+	var segnV2 = parseInt(segnV) + 1;
+	
+	document.getElementById("SegnC").value = segnV2;
+
+	CellList.push('Neut\n ');
+	
+}
+function KeyC(){
+	
+	var lymV  =  document.getElementById('LymC').value;
+	
+	var lymV2 = parseInt(lymV) + 1;
+	
+	document.getElementById("LymC").value = lymV2;
+
+	CellList.push('Lymph\n ');
+}
+function KeyD(){
+	
+	var monoV  =  document.getElementById('MonoC').value;
+	
+	var monoV2 = parseInt(monoV) + 1;
+	
+	document.getElementById("MonoC").value = monoV2;
+
+	CellList.push('Mono\n ');
+}
+function KeyS(){
+	
+	var eoV  =  document.getElementById('EoC').value;
+	
+	var eoV2 = parseInt(eoV) + 1;
+	
+	document.getElementById("EoC").value = eoV2;
+
+	CellList.push('Eo\n ');
+}
+function KeyA(){
+	
+	var basoV  =  document.getElementById('BasoC').value;
+	
+	var basoV2 = parseInt(basoV) + 1;
+	
+	document.getElementById("BasoC").value = basoV2;
+
+	CellList.push('Baso\n ');
+}
+function KeyV(){
+	
+	var atyV  =  document.getElementById('AtyC').value;
+	
+	var atyV2 = parseInt(atyV) + 1;
+	
+	document.getElementById("AtyC").value = atyV2;
+
+	CellList.push('Atypic\n ');
+}
+function KeyZ(){
+	
+	var bandV  =  document.getElementById('BandC').value;
+	
+	var bandV2 = parseInt(bandV) + 1;
+	
+	document.getElementById("BandC").value = bandV2;
+
+	CellList.push('Band\n ');
+}
+function KeyF(){
+	
+	var metaV  =  document.getElementById('MetaC').value;
+	
+	var metaV2 = parseInt(metaV) + 1;
+	
+	document.getElementById("MetaC").value = metaV2;
+
+	CellList.push('Meta\n ');
+}
+function KeyR(){
+	
+	var myeV  =  document.getElementById('MyeC').value;
+	
+	var myeV2 = parseInt(myeV) + 1;
+	
+	document.getElementById("MyeC").value = myeV2;
+
+	CellList.push('Myelo\n ');
+}
+function KeyE(){
+	
+	var proV  =  document.getElementById('ProC').value;
+	
+	var proV2 = parseInt(proV) + 1;
+	
+	document.getElementById("ProC").value = proV2;
+
+	CellList.push('Pro\n ');
+}
+function KeyW(){
+	
+	var blaV  =  document.getElementById('BlaC').value;
+	
+	var blaV2 = parseInt(blaV) + 1;
+	
+	document.getElementById("BlaC").value = blaV2;
+
+	CellList.push('Blast\n ');
+}
+function KeyT(){
+	
+	var othV  =  document.getElementById('OthC').value;
+	
+	var othV2 = parseInt(othV) + 1;
+	
+	document.getElementById("OthC").value = othV2;
+
+	CellList.push('Other\n ');
+}
+function KeyQ(){
+	
+	var nrbV  =  document.getElementById('NrbC').value;
+	
+	var nrbV2 = parseInt(nrbV) + 1;
+	
+	document.getElementById("NrbC").value = nrbV2;
+
+	CellList.push('nRBC\n ');
+}
+   window.onload = DisableTexts();
+
+   function DisableTexts(){
+	   // Disabled so user cant ruin calculations
+	   document.getElementById("SegR").disabled = true;
+	   document.getElementById("LymR").disabled = true;
+	   document.getElementById("MonoR").disabled = true;
+	   document.getElementById("EoR").disabled = true;
+	   document.getElementById("BasoR").disabled = true;
+	   document.getElementById("BandR").disabled = true;
+	   document.getElementById("AtyR").disabled = true;
+	   document.getElementById("MetaR").disabled = true;
+	   document.getElementById("MyeR").disabled = true;
+	   document.getElementById("ProR").disabled = true;
+	   document.getElementById("BlaR").disabled = true;
+	   document.getElementById("OthR").disabled = true;
+	   document.getElementById("NrbR").disabled = true;
+	   document.getElementById("SegA").disabled = true;
+	   document.getElementById("LymA").disabled = true;
+	   document.getElementById("MonoA").disabled = true;
+	   document.getElementById("EoA").disabled = true;
+	   document.getElementById("BasoA").disabled = true;
+	   document.getElementById("BandA").disabled = true;
+	   document.getElementById("AtyA").disabled = true;
+	   document.getElementById("MetaA").disabled = true;
+	   document.getElementById("MyeA").disabled = true;
+	   document.getElementById("ProA").disabled = true;
+	   document.getElementById("BlaA").disabled = true;
+	   document.getElementById("OthA").disabled = true;
+	   document.getElementById("NrbA").disabled = true;
+	   document.getElementById("Total").disabled = true;
+   }
+  </script>
+   <Button onclick = "Instructions()" class = "button"> Instructions </button>
+   <Button onclick = "ShowCells()" class = "button"> Show Cell History </button>
+   <Button onclick = "Reset()" class = "button"> Reset Count </button>
+
+
+  <br>
+  <br>
+  <table id = "nrbctable">
+   <tr>
+   <td> HSC nRBC Correction </td>
+   </tr>
+   <tr>
+  <td> Enter analyzer WBC: </td>
+  <td> <input type="text" id="NRWBC" value="0"> </td>
+  </tr>
+   <tr>
+  <td> Enter analyzer nRBC count: </td>
+  <td> <input type="text" id="ANRBC" value="0"> </td>
+  </tr>
+  <tr>
+  <td> Enter MANUAL nRBC count: </td>
+  <td> <input type="text" id="UNRBC" value="0"> </td>
+  </tr>
+  </table>
+  <Button onclick = "NRBCCORR()" class = "button"> Correct nRBC </button>
+  <br>
+  <br>
+  <a href="javascript:window.print()">
+<img border="0" position = "absolute" src="https://findicons.com/files/icons/2152/snowish/128/printer.png" width="50px" height="50px">
+</a>
+  <div class = 'footer'> <p>Made by Jason St. Jacques © 2019 </p> </div>
+  </body>
+</html>
